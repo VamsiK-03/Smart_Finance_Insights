@@ -1,0 +1,787 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <div>
+
+        <h1>📊 Dashboard</h1>
+
+        <p>Welcome back, <strong>{{ user.username }}</strong></p>
+
+    </div>
+
+    <div class="dashboard-date">
+
+        <h3 id="today"></h3>
+
+        <p id="clock"></p>
+
+    </div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card income-card">
+
+<div class="card-icon">💰</div>
+
+<div>
+
+<h4>Total Income</h4>
+
+<h2>₹{{ total_income }}</h2>
+
+<p>Monthly Income</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card expense-card">
+
+<div class="card-icon">💳</div>
+
+<div>
+
+<h4>Total Expense</h4>
+
+<h2>₹{{ total_expense }}</h2>
+
+<p>Monthly Expense</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card savings-card">
+
+<div class="card-icon">🏦</div>
+
+<div>
+
+<h4>Total Savings</h4>
+
+<h2>₹{{ total_savings }}</h2>
+
+<p>{{ savings_rate }}% Savings Rate</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card investment-card">
+
+<div class="card-icon">📈</div>
+
+<div>
+
+<h4>Investments</h4>
+
+<h2>₹{{ total_investment }}</h2>
+
+<p>ROI {{ roi }}%</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card health-card">
+
+<div class="card-icon">❤️</div>
+
+<div>
+
+<h4>Financial Score</h4>
+
+<h2>{{ financial_score }}/100</h2>
+
+<p>Financial Health</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card goal-card">
+
+<div class="card-icon">🎯</div>
+
+<div>
+
+<h4>Goals</h4>
+
+<h2>{{ goal_data|length }}</h2>
+
+<p>Active Goals</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>❤️ Financial Health</h2>
+
+<div class="health-circle">
+
+<h1>{{ financial_score }}</h1>
+
+<span>/100</span>
+
+</div>
+
+<br>
+
+{% if financial_score>=80 %}
+
+<h3 style="color:green;text-align:center;">Excellent Financial Health</h3>
+
+{% elif financial_score>=60 %}
+
+<h3 style="color:#2563eb;text-align:center;">Good Financial Health</h3>
+
+{% elif financial_score>=40 %}
+
+<h3 style="color:orange;text-align:center;">Average Financial Health</h3>
+
+{% else %}
+
+<h3 style="color:red;text-align:center;">Needs Improvement</h3>
+
+{% endif %}
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📋 Financial Summary</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<td>Total Income</td>
+
+<td>₹{{ total_income }}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Expense</td>
+
+<td>₹{{ total_expense }}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Savings</td>
+
+<td>₹{{ total_savings }}</td>
+
+</tr>
+
+<tr>
+
+<td>Savings Rate</td>
+
+<td>{{ savings_rate }}%</td>
+
+</tr>
+
+<tr>
+
+<td>Investment ROI</td>
+
+<td>{{ roi }}%</td>
+
+</tr>
+
+<tr>
+
+<td>Emergency Fund</td>
+
+<td>₹{{ emergency_fund }}</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>📊 Income vs Expense</h2>
+
+<canvas id="financeChart"></canvas>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>💡 AI Recommendation</h2>
+
+{% if total_expense>total_income %}
+
+<div class="notify warning">
+
+Expenses are higher than income. Reduce unnecessary spending.
+
+</div>
+
+{% elif savings_rate<20 %}
+
+<div class="notify info">
+
+Increase your savings to at least 20% of your income.
+
+</div>
+
+{% else %}
+
+<div class="notify success">
+
+Excellent! Your finances are healthy.
+
+</div>
+
+{% endif %}
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+    <div class="dashboard-panel">
+
+        <h2>🎯 Goal Progress</h2>
+
+        {% if goal_data|length==0 %}
+
+        <div class="notify info">
+
+            No financial goals created.
+
+        </div>
+
+        {% else %}
+
+        {% for goal in goal_data %}
+
+        <div class="goal-progress">
+
+            <strong>{{ goal.goal }}</strong>
+
+            <div class="progress">
+
+                <div style="width:{{ goal.progress }}%"></div>
+
+            </div>
+
+            <span>
+
+                ₹{{ goal.saved }} / ₹{{ goal.target }}
+
+                ({{ goal.progress }}%)
+
+            </span>
+
+        </div>
+
+        {% endfor %}
+
+        {% endif %}
+
+    </div>
+
+    <div class="dashboard-panel">
+
+        <h2>📊 Spending Analysis</h2>
+
+        {% if expense_data|length==0 %}
+
+        <div class="notify info">
+
+            No expense records available.
+
+        </div>
+
+        {% else %}
+
+        <canvas id="expenseChart"></canvas>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<div class="dashboard-row">
+
+    <div class="dashboard-panel">
+
+        <h2>📄 Recent Transactions</h2>
+
+        <table class="dashboard-table">
+
+            <tr>
+
+                <th>Type</th>
+
+                <th>Name</th>
+
+                <th>Amount</th>
+
+            </tr>
+
+            {% for item in income_data[-5:] %}
+
+            <tr>
+
+                <td>Income</td>
+
+                <td>{{ item.source }}</td>
+
+                <td style="color:green;">
+
+                    ₹{{ item.amount }}
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+            {% for item in expense_data[-5:] %}
+
+            <tr>
+
+                <td>Expense</td>
+
+                <td>{{ item.category }}</td>
+
+                <td style="color:red;">
+
+                    ₹{{ item.amount }}
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <div class="dashboard-panel">
+
+        <h2>🔔 Smart Alerts</h2>
+
+        <div class="notification-box">
+
+            {% if total_expense>total_income %}
+
+            <div class="notify warning">
+
+                Expenses are higher than income.
+
+            </div>
+
+            {% endif %}
+
+            {% if savings_rate<20 %}
+
+            <div class="notify info">
+
+                Savings rate is below 20%.
+
+            </div>
+
+            {% endif %}
+
+            {% if total_investment==0 %}
+
+            <div class="notify warning">
+
+                No investments added.
+
+            </div>
+
+            {% endif %}
+
+            {% if goal_data|length==0 %}
+
+            <div class="notify warning">
+
+                No financial goals available.
+
+            </div>
+
+            {% endif %}
+
+            {% if total_expense<=total_income and savings_rate>=20 and total_investment>0 %}
+
+            <div class="notify success">
+
+                Your financial condition looks healthy.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="dashboard-row">
+
+    <div class="dashboard-panel">
+
+        <h2>🚀 Quick Actions</h2>
+
+        <div class="quick-buttons">
+
+            <button class="menu-btn"
+
+            onclick="location.href='/income'">
+
+            ➕ Add Income
+
+            </button>
+
+            <button class="menu-btn"
+
+            onclick="location.href='/expense'">
+
+            ➖ Add Expense
+
+            </button>
+
+            <button class="menu-btn"
+
+            onclick="location.href='/investment'">
+
+            📈 Investments
+
+            </button>
+
+            <button class="menu-btn"
+
+            onclick="location.href='/goals'">
+
+            🎯 Goals
+
+            </button>
+
+            <button class="menu-btn"
+
+            onclick="location.href='/reports'">
+
+            📄 Reports
+
+            </button>
+
+            <button class="menu-btn"
+
+            onclick="location.href='/analytics'">
+
+            📊 Analytics
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="dashboard-panel">
+
+        <h2>🏆 Achievement</h2>
+
+        <div class="achievement">
+
+            {% if financial_score>=80 %}
+
+            <h1>🥇</h1>
+
+            <h3>Excellent</h3>
+
+            <p>Outstanding financial management.</p>
+
+            {% elif financial_score>=60 %}
+
+            <h1>🥈</h1>
+
+            <h3>Good</h3>
+
+            <p>Keep improving your savings.</p>
+
+            {% else %}
+
+            <h1>🥉</h1>
+
+            <h3>Needs Improvement</h3>
+
+            <p>Reduce expenses and increase savings.</p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+<div class="dashboard-row">
+
+    <div class="dashboard-panel">
+
+        <h2>📈 Savings Overview</h2>
+
+        <canvas id="savingChart"></canvas>
+
+    </div>
+
+    <div class="dashboard-panel">
+
+        <h2>💼 Investment Overview</h2>
+
+        <canvas id="investmentChart"></canvas>
+
+    </div>
+
+</div>
+
+<script>
+
+document.getElementById("today").innerHTML=
+new Date().toLocaleDateString();
+
+function updateClock(){
+
+document.getElementById("clock").innerHTML=
+new Date().toLocaleTimeString();
+
+}
+
+updateClock();
+
+setInterval(updateClock,1000);
+
+new Chart(document.getElementById("financeChart"),{
+
+type:"bar",
+
+data:{
+
+labels:["Income","Expense","Savings"],
+
+datasets:[{
+
+label:"Amount",
+
+data:[
+
+{{ total_income }},
+
+{{ total_expense }},
+
+{{ total_savings }}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+new Chart(document.getElementById("savingChart"),{
+
+type:"doughnut",
+
+data:{
+
+labels:["Savings","Expenses"],
+
+datasets:[{
+
+data:[
+
+{{ total_savings }},
+
+{{ total_expense }}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+new Chart(document.getElementById("investmentChart"),{
+
+type:"pie",
+
+data:{
+
+labels:["Investment","Remaining Income"],
+
+datasets:[{
+
+data:[
+
+{{ total_investment }},
+
+{{ total_income-total_investment }}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+{% if expense_data|length>0 %}
+
+new Chart(document.getElementById("expenseChart"),{
+
+type:"pie",
+
+data:{
+
+labels:[
+
+{% for item in expense_data %}
+
+"{{ item.category }}",
+
+{% endfor %}
+
+],
+
+datasets:[{
+
+data:[
+
+{% for item in expense_data %}
+
+{{ item.amount }},
+
+{% endfor %}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+{% endif %}
+
+</script>
+<div class="dashboard-panel jarvis-dashboard-card">
+
+    <div class="jarvis-dashboard-header">
+
+        <div>
+
+            <h2>🤖 JARVIS Financial Assistant</h2>
+
+            <p>
+                Get quick answers about your current financial position.
+            </p>
+
+        </div>
+
+        <a href="/jarvis" class="menu-btn">
+            Open JARVIS
+        </a>
+
+    </div>
+
+    <div class="dashboard-grid">
+
+        <div class="dashboard-card">
+
+            <h4>💰 Income</h4>
+
+            <h2>
+                ₹{{ "%.2f"|format(total_income) }}
+            </h2>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h4>💳 Expenses</h4>
+
+            <h2>
+                ₹{{ "%.2f"|format(total_expense) }}
+            </h2>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h4>🏦 Savings</h4>
+
+            <h2>
+                ₹{{ "%.2f"|format(total_savings) }}
+            </h2>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h4>❤️ Financial Health</h4>
+
+            <h2>
+                {{ financial_score }}/100
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

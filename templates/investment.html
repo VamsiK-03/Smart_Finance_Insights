@@ -1,0 +1,337 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>💼 Investment Portfolio</h1>
+
+<p>Manage and monitor your investment portfolio.</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card investment-card">
+
+<div class="card-icon">💰</div>
+
+<div>
+
+<h4>Total Invested</h4>
+
+<h2>₹{{ total_invested }}</h2>
+
+<p>Investment Amount</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card savings-card">
+
+<div class="card-icon">📈</div>
+
+<div>
+
+<h4>Current Value</h4>
+
+<h2>₹{{ current_value }}</h2>
+
+<p>Market Value</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card health-card">
+
+<div class="card-icon">💹</div>
+
+<div>
+
+<h4>Profit / Loss</h4>
+
+<h2>₹{{ profit }}</h2>
+
+<p>Net Return</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card goal-card">
+
+<div class="card-icon">📊</div>
+
+<div>
+
+<h4>ROI</h4>
+
+<h2>{{ roi }}%</h2>
+
+<p>Return on Investment</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>➕ Add Investment</h2>
+
+<form action="/add_investment" method="POST">
+
+<div class="form-group">
+
+<label>Asset Type</label>
+
+<select name="asset" required>
+
+<option value="">Select Asset</option>
+
+<option>Stocks</option>
+
+<option>Mutual Fund</option>
+
+<option>Gold</option>
+
+<option>Fixed Deposit</option>
+
+<option>Crypto</option>
+
+<option>Real Estate</option>
+
+<option>Others</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Investment Name</label>
+
+<input
+
+type="text"
+
+name="name"
+
+placeholder="Example: SBI Mutual Fund"
+
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Invested Amount</label>
+
+<input
+
+type="number"
+
+name="invested"
+
+step="0.01"
+
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Current Value</label>
+
+<input
+
+type="number"
+
+name="current"
+
+step="0.01"
+
+required>
+
+</div>
+
+<br>
+
+<button class="menu-btn">
+
+Save Investment
+
+</button>
+
+</form>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📈 Portfolio Overview</h2>
+
+<canvas id="investmentChart"></canvas>
+
+</div>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📋 Investment History</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>#</th>
+
+<th>Asset</th>
+
+<th>Name</th>
+
+<th>Invested</th>
+
+<th>Current</th>
+
+<th>Profit</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for item in investment_data %}
+
+<tr>
+
+<td>{{ loop.index }}</td>
+
+<td>{{ item.asset }}</td>
+
+<td>{{ item.name }}</td>
+
+<td>₹{{ item.invested }}</td>
+
+<td>₹{{ item.current }}</td>
+
+<td>
+
+{% if item.current-item.invested>=0 %}
+
+<span style="color:green;font-weight:bold;">
+
+₹{{ item.current-item.invested }}
+
+</span>
+
+{% else %}
+
+<span style="color:red;font-weight:bold;">
+
+₹{{ item.current-item.invested }}
+
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+<a href="/delete_investment/{{ loop.index0 }}">
+
+<button class="menu-btn">
+
+Delete
+
+</button>
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<script>
+
+new Chart(document.getElementById("investmentChart"),{
+
+type:"bar",
+
+data:{
+
+labels:[
+
+{% for item in investment_data %}
+
+"{{ item.name }}",
+
+{% endfor %}
+
+],
+
+datasets:[
+
+{
+
+label:"Invested",
+
+data:[
+
+{% for item in investment_data %}
+
+{{ item.invested }},
+
+{% endfor %}
+
+]
+
+},
+
+{
+
+label:"Current Value",
+
+data:[
+
+{% for item in investment_data %}
+
+{{ item.current }},
+
+{% endfor %}
+
+]
+
+}
+
+]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+</script>
+
+{% endblock %}

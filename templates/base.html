@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Smart Finance Insights</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+
+<h2>💰 Smart Finance</h2>
+
+</div>
+
+<ul class="sidebar-menu">
+
+<li><a href="/dashboard">📊 Dashboard</a></li>
+
+<li><a href="/income">💰 Income</a></li>
+
+<li><a href="/expense">💳 Expenses</a></li>
+
+<li><a href="/reports">📄 Reports</a></li>
+<li>
+    <a href="/advanced_reports">
+        📑 Advanced Reports
+    </a>
+</li>
+
+<li><a href="/charts">📈 Charts</a></li>
+
+<li><a href="/investment">💼 Investments</a></li>
+
+<li><a href="/asset_allocation">🥧 Asset Allocation</a></li>
+
+<li><a href="/goals">🎯 Goals</a></li>
+
+<li><a href="/analytics">📊 Analytics</a></li>
+
+<li><a href="/financial_health">❤️ Financial Health</a></li>
+
+<li><a href="/budget_recommendation">💵 Budget</a></li>
+
+<li><a href="/spending_analysis">📉 Spending Analysis</a></li>
+
+<li><a href="/alerts">🔔 Alerts</a></li>
+
+<li><a href="/ai">🤖 AI Insights</a></li>
+<li>
+    <a href="/jarvis">
+        🤖 JARVIS Assistant
+    </a>
+</li>
+
+<li><a href="/profile">👤 Profile</a></li>
+
+<li><a href="/settings">⚙ Settings</a></li>
+
+<li><a href="/logout">🚪 Logout</a></li>
+
+</ul>
+
+</div>
+
+</div>
+
+<div class="main-content">
+
+<div class="topbar">
+
+<div>
+
+<h2>Smart Finance Insights</h2>
+
+<p>Personal Finance Management System</p>
+
+</div>
+
+<div class="top-right">
+
+{% if user %}
+
+<div class="welcome">
+
+👋 Welcome,
+<strong>{{ user.username }}</strong>
+
+</div>
+
+{% endif %}
+
+<div id="dateTime"></div>
+
+</div>
+
+</div>
+
+<div class="content">
+
+{% block content %}
+
+{% endblock %}
+
+</div>
+
+</div>
+
+<script>
+
+function updateDateTime(){
+
+const now=new Date();
+
+document.getElementById("dateTime").innerHTML=
+
+now.toLocaleDateString()+" | "+now.toLocaleTimeString();
+
+}
+
+updateDateTime();
+
+setInterval(updateDateTime,1000);
+
+</script>
+
+</body>
+
+</html>

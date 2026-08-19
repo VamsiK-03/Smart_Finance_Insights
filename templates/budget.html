@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Budget Tracker</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>💰 Smart Finance</h2>
+
+<ul class="menu">
+
+<li><button class="menu-btn" onclick="location.href='/dashboard'">🏠 Dashboard</button></li>
+
+<li><button class="menu-btn" onclick="location.href='/dashboard#income'">💵 Income</button></li>
+
+<li><button class="menu-btn" onclick="location.href='/dashboard#expense'">💳 Expense</button></li>
+
+<li><button class="menu-btn" onclick="location.href='/budget'">📊 Budget</button></li>
+
+<li><button class="menu-btn" onclick="location.href='/reports'">📄 Reports</button></li>
+
+<li><button class="menu-btn" onclick="location.href='/charts'">📈 Charts</button></li>
+
+<li><button class="menu-btn" onclick="location.href='/ai'">🤖 AI Insights</button></li>
+
+<li><button class="menu-btn" onclick="location.href='/profile'">👤 Profile</button></li>
+
+<li><button class="menu-btn" onclick="location.href='/settings'">⚙️ Settings</button></li>
+
+<li><button class="logout-btn" onclick="location.href='/logout'">🚪 Logout</button></li>
+
+</ul>
+
+</div>
+
+<div class="main">
+
+<h1>📊 Budget Tracker</h1>
+
+<div class="cards">
+
+<div class="card">
+
+<h3>Total Income</h3>
+
+<h2>₹{{ income }}</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Total Expenses</h3>
+
+<h2>₹{{ expense }}</h2>
+
+</div>
+
+<div class="card">
+
+<h3>Remaining Budget</h3>
+
+<h2>₹{{ balance }}</h2>
+
+</div>
+
+</div>
+
+<div class="table-box">
+
+<h2>Budget Summary</h2>
+
+<table>
+
+<tr>
+
+<th>Total Income</th>
+
+<td>₹{{ income }}</td>
+
+</tr>
+
+<tr>
+
+<th>Total Expense</th>
+
+<td>₹{{ expense }}</td>
+
+</tr>
+
+<tr>
+
+<th>Remaining Budget</th>
+
+<td>₹{{ balance }}</td>
+
+</tr>
+
+<tr>
+
+<th>Budget Used</th>
+
+<td>
+
+{% if income > 0 %}
+
+{{ ((expense/income)*100)|round(2) }}%
+
+{% else %}
+
+0%
+
+{% endif %}
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<div class="table-box">
+
+<h2>Budget Status</h2>
+
+{% if balance > 0 %}
+
+<h3 style="color:green;">✅ You are within your budget.</h3>
+
+{% else %}
+
+<h3 style="color:red;">⚠️ You have exceeded your budget.</h3>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</body>
+
+</html>

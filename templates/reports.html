@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>📄 Financial Reports</h1>
+
+<p>View complete financial reports and monthly summary.</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card income-card">
+
+<div class="card-icon">💰</div>
+
+<div>
+
+<h4>Total Income</h4>
+
+<h2>₹{{ summary.income }}</h2>
+
+<p>Overall Income</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card expense-card">
+
+<div class="card-icon">💳</div>
+
+<div>
+
+<h4>Total Expense</h4>
+
+<h2>₹{{ summary.expense }}</h2>
+
+<p>Total Expenses</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card savings-card">
+
+<div class="card-icon">🏦</div>
+
+<div>
+
+<h4>Total Savings</h4>
+
+<h2>₹{{ summary.savings }}</h2>
+
+<p>Net Savings</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card health-card">
+
+<div class="card-icon">📊</div>
+
+<div>
+
+<h4>Expense Ratio</h4>
+
+<h2>{{ summary.expense_ratio }}%</h2>
+
+<p>Income Utilized</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>💰 Income Report</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>#</th>
+
+<th>Source</th>
+
+<th>Amount</th>
+
+<th>Date</th>
+
+</tr>
+
+{% for item in income_data %}
+
+<tr>
+
+<td>{{ loop.index }}</td>
+
+<td>{{ item.source }}</td>
+
+<td style="color:green;font-weight:600;">
+
+₹{{ item.amount }}
+
+</td>
+
+<td>{{ item.date }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>💳 Expense Report</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>#</th>
+
+<th>Category</th>
+
+<th>Amount</th>
+
+<th>Date</th>
+
+</tr>
+
+{% for item in expense_data %}
+
+<tr>
+
+<td>{{ loop.index }}</td>
+
+<td>{{ item.category }}</td>
+
+<td style="color:red;font-weight:600;">
+
+₹{{ item.amount }}
+
+</td>
+
+<td>{{ item.date }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📑 Report Summary</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>Description</th>
+
+<th>Value</th>
+
+</tr>
+
+<tr>
+
+<td>Total Income</td>
+
+<td>₹{{ summary.income }}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Expense</td>
+
+<td>₹{{ summary.expense }}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Savings</td>
+
+<td>₹{{ summary.savings }}</td>
+
+</tr>
+
+<tr>
+
+<td>Expense Ratio</td>
+
+<td>{{ summary.expense_ratio }}%</td>
+
+</tr>
+
+<tr>
+
+<td>Report Generated</td>
+
+<td>{{ user.username }}</td>
+
+</tr>
+
+</table>
+
+<br>
+
+<button class="menu-btn" onclick="window.print()">
+
+🖨 Print Report
+
+</button>
+
+<button class="menu-btn"
+
+onclick="location.href='/dashboard'">
+
+🏠 Dashboard
+
+</button>
+
+</div>
+
+{% endblock %}

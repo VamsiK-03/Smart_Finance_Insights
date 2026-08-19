@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>📊 Financial Charts</h1>
+
+<p>Visualize your financial performance with interactive charts.</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card income-card">
+
+<div class="card-icon">💰</div>
+
+<div>
+
+<h4>Total Income</h4>
+
+<h2>₹{{ income }}</h2>
+
+<p>Current Income</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card expense-card">
+
+<div class="card-icon">💳</div>
+
+<div>
+
+<h4>Total Expense</h4>
+
+<h2>₹{{ expense }}</h2>
+
+<p>Current Expense</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card savings-card">
+
+<div class="card-icon">🏦</div>
+
+<div>
+
+<h4>Total Savings</h4>
+
+<h2>₹{{ savings }}</h2>
+
+<p>Available Savings</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>📊 Income vs Expense</h2>
+
+<canvas id="barChart"></canvas>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>🥧 Expense Distribution</h2>
+
+<canvas id="pieChart"></canvas>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>📈 Financial Comparison</h2>
+
+<canvas id="lineChart"></canvas>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>💹 Savings Analysis</h2>
+
+<canvas id="doughnutChart"></canvas>
+
+</div>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📌 Financial Summary</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>Metric</th>
+
+<th>Value</th>
+
+</tr>
+
+<tr>
+
+<td>Total Income</td>
+
+<td>₹{{ income }}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Expense</td>
+
+<td>₹{{ expense }}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Savings</td>
+
+<td>₹{{ savings }}</td>
+
+</tr>
+
+<tr>
+
+<td>Savings Percentage</td>
+
+<td>
+
+{% if income>0 %}
+
+{{ ((savings/income)*100)|round(2) }}%
+
+{% else %}
+
+0%
+
+{% endif %}
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<script>
+
+new Chart(document.getElementById("barChart"),{
+
+type:"bar",
+
+data:{
+
+labels:["Income","Expense","Savings"],
+
+datasets:[{
+
+label:"Amount",
+
+data:[
+
+{{ income }},
+
+{{ expense }},
+
+{{ savings }}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+new Chart(document.getElementById("pieChart"),{
+
+type:"pie",
+
+data:{
+
+labels:[
+
+{% for category in categories %}
+
+"{{ category }}",
+
+{% endfor %}
+
+],
+
+datasets:[{
+
+data:[
+
+{% for amount in amounts %}
+
+{{ amount }},
+
+{% endfor %}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+
+position:"bottom"
+
+}
+
+}
+
+}
+
+});
+
+new Chart(document.getElementById("lineChart"),{
+
+type:"line",
+
+data:{
+
+labels:["Income","Expense","Savings"],
+
+datasets:[{
+
+label:"Finance",
+
+fill:false,
+
+data:[
+
+{{ income }},
+
+{{ expense }},
+
+{{ savings }}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+new Chart(document.getElementById("doughnutChart"),{
+
+type:"doughnut",
+
+data:{
+
+labels:["Savings","Expenses"],
+
+datasets:[{
+
+data:[
+
+{{ savings }},
+
+{{ expense }}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+</script>
+
+{% endblock %}

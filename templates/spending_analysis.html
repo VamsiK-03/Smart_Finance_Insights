@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>📊 Spending Analysis</h1>
+
+<p>Analyze your spending habits by category.</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card expense-card">
+
+<div class="card-icon">💳</div>
+
+<div>
+
+<h4>Total Expenses</h4>
+
+<h2>₹{{ total_expense }}</h2>
+
+<p>Overall Spending</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card health-card">
+
+<div class="card-icon">📂</div>
+
+<div>
+
+<h4>Categories</h4>
+
+<h2>{{ categories|length }}</h2>
+
+<p>Expense Categories</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card investment-card">
+
+<div class="card-icon">🏆</div>
+
+<div>
+
+<h4>Highest Expense</h4>
+
+<h2>{{ highest_category }}</h2>
+
+<p>Top Spending Category</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card savings-card">
+
+<div class="card-icon">📈</div>
+
+<div>
+
+<h4>Average Expense</h4>
+
+<h2>₹{{ average_expense }}</h2>
+
+<p>Per Category</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>📊 Expense Distribution</h2>
+
+<canvas id="spendingPie"></canvas>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📈 Category Comparison</h2>
+
+<canvas id="spendingBar"></canvas>
+
+</div>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📋 Spending Summary</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>Category</th>
+
+<th>Amount</th>
+
+<th>Percentage</th>
+
+</tr>
+
+{% for item in analysis %}
+
+<tr>
+
+<td>{{ item.category }}</td>
+
+<td>₹{{ item.amount }}</td>
+
+<td>{{ item.percentage }}%</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>🤖 AI Spending Suggestions</h2>
+
+<div class="notification-box">
+
+<div class="notify info">
+
+Track your daily expenses regularly.
+
+</div>
+
+<div class="notify success">
+
+Focus on reducing your highest spending category.
+
+</div>
+
+<div class="notify warning">
+
+Maintain an emergency fund before increasing discretionary spending.
+
+</div>
+
+<div class="notify success">
+
+Review your monthly spending report to identify saving opportunities.
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+new Chart(document.getElementById("spendingPie"),{
+
+type:"pie",
+
+data:{
+
+labels:[
+
+{% for item in analysis %}
+
+"{{ item.category }}",
+
+{% endfor %}
+
+],
+
+datasets:[{
+
+data:[
+
+{% for item in analysis %}
+
+{{ item.amount }},
+
+{% endfor %}
+
+]
+
+}]
+
+},
+
+options:{responsive:true}
+
+});
+
+new Chart(document.getElementById("spendingBar"),{
+
+type:"bar",
+
+data:{
+
+labels:[
+
+{% for item in analysis %}
+
+"{{ item.category }}",
+
+{% endfor %}
+
+],
+
+datasets:[{
+
+label:"Expenses",
+
+data:[
+
+{% for item in analysis %}
+
+{{ item.amount }},
+
+{% endfor %}
+
+]
+
+}]
+
+},
+
+options:{responsive:true}
+
+});
+
+</script>
+
+{% endblock %}

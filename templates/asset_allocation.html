@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>🥧 Asset Allocation</h1>
+
+<p>Analyze the distribution of your investment portfolio.</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card investment-card">
+
+<div class="card-icon">💼</div>
+
+<div>
+
+<h4>Total Portfolio</h4>
+
+<h2>₹{{ total }}</h2>
+
+<p>Total Investment</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card health-card">
+
+<div class="card-icon">📊</div>
+
+<div>
+
+<h4>Asset Types</h4>
+
+<h2>{{ allocation_data|length }}</h2>
+
+<p>Diversified Assets</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>🥧 Portfolio Allocation</h2>
+
+<canvas id="allocationChart"></canvas>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📋 Allocation Summary</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>Asset</th>
+
+<th>Amount</th>
+
+<th>Percentage</th>
+
+</tr>
+
+{% for item in allocation_data %}
+
+<tr>
+
+<td>{{ item.asset }}</td>
+
+<td>₹{{ item.amount }}</td>
+
+<td>{{ item.percentage }}%</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📈 Portfolio Diversification</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>Asset Type</th>
+
+<th>Investment</th>
+
+<th>Allocation</th>
+
+</tr>
+
+{% for item in allocation_data %}
+
+<tr>
+
+<td>{{ item.asset }}</td>
+
+<td>₹{{ item.amount }}</td>
+
+<td>
+
+<div class="progress">
+
+<div style="width:{{ item.percentage }}%;"></div>
+
+</div>
+
+{{ item.percentage }}%
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<script>
+
+new Chart(document.getElementById("allocationChart"),{
+
+type:"pie",
+
+data:{
+
+labels:[
+
+{% for item in allocation_data %}
+
+"{{ item.asset }}",
+
+{% endfor %}
+
+],
+
+datasets:[{
+
+data:[
+
+{% for item in allocation_data %}
+
+{{ item.amount }},
+
+{% endfor %}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+
+position:"bottom"
+
+}
+
+}
+
+}
+
+});
+
+</script>
+
+{% endblock %}

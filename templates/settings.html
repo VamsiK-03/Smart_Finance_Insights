@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>⚙ Settings</h1>
+
+<p>Manage your Smart Finance account settings.</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>👤 Account Information</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>Field</th>
+
+<th>Value</th>
+
+</tr>
+
+<tr>
+
+<td>Username</td>
+
+<td>{{ user.username }}</td>
+
+</tr>
+
+<tr>
+
+<td>Email</td>
+
+<td>{{ user.email }}</td>
+
+</tr>
+
+<tr>
+
+<td>Account Status</td>
+
+<td style="color:green;">Active</td>
+
+</tr>
+
+<tr>
+
+<td>Application</td>
+
+<td>Smart Finance Insights</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>🎨 Appearance</h2>
+
+<form>
+
+<div class="form-group">
+
+<label>Theme</label>
+
+<select>
+
+<option>Light Mode</option>
+
+<option>Dark Mode</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Language</label>
+
+<select>
+
+<option>English</option>
+
+<option>Telugu</option>
+
+<option>Hindi</option>
+
+</select>
+
+</div>
+
+<button type="button" class="menu-btn">
+
+Save Preferences
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>🔔 Notification Settings</h2>
+
+<form>
+
+<div class="form-group">
+
+<label>
+
+<input type="checkbox" checked>
+
+ Email Notifications
+
+</label>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+<input type="checkbox" checked>
+
+ Smart Financial Alerts
+
+</label>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+<input type="checkbox">
+
+ Monthly Reports
+
+</label>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+<input type="checkbox">
+
+ Investment Updates
+
+</label>
+
+</div>
+
+<button type="button" class="menu-btn">
+
+Update Notifications
+
+</button>
+
+</form>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>🔒 Security</h2>
+
+<form>
+
+<div class="form-group">
+
+<label>Current Password</label>
+
+<input
+type="password"
+placeholder="Current Password">
+
+</div>
+
+<div class="form-group">
+
+<label>New Password</label>
+
+<input
+type="password"
+placeholder="New Password">
+
+</div>
+
+<div class="form-group">
+
+<label>Confirm Password</label>
+
+<input
+type="password"
+placeholder="Confirm Password">
+
+</div>
+
+<button type="button" class="menu-btn">
+
+Change Password
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>ℹ Application Information</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>Item</th>
+
+<th>Details</th>
+
+</tr>
+
+<tr>
+
+<td>Application</td>
+
+<td>Smart Finance Insights</td>
+
+</tr>
+
+<tr>
+
+<td>Version</td>
+
+<td>3.0</td>
+
+</tr>
+
+<tr>
+
+<td>Developer</td>
+
+<td>Vamsi K</td>
+
+</tr>
+
+
+<tr>
+
+<td>Status</td>
+
+<td style="color:green;">Running Successfully</td>
+
+</tr>
+
+</table>
+
+</div>
+
+{% endblock %}

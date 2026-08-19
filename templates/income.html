@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>💰 Income Management</h1>
+
+<p>Manage and monitor all your income sources.</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card income-card">
+
+<div class="card-icon">💵</div>
+
+<div>
+
+<h4>Total Income</h4>
+
+<h2>₹{{ total_income }}</h2>
+
+<p>Current Income</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card savings-card">
+
+<div class="card-icon">📅</div>
+
+<div>
+
+<h4>Income Records</h4>
+
+<h2>{{ income_data|length }}</h2>
+
+<p>Total Entries</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>➕ Add New Income</h2>
+
+<form action="/add_income" method="POST">
+
+<div class="form-group">
+
+<label>Income Source</label>
+
+<input
+type="text"
+name="source"
+placeholder="Salary, Business, Freelancing"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Amount (₹)</label>
+
+<input
+type="number"
+name="amount"
+step="0.01"
+placeholder="50000"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Date</label>
+
+<input
+type="date"
+name="date"
+required>
+
+</div>
+
+<br>
+
+<button class="menu-btn">
+
+Save Income
+
+</button>
+
+</form>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📊 Income Summary</h2>
+
+<canvas id="incomeChart"></canvas>
+
+</div>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📋 Income History</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>#</th>
+
+<th>Source</th>
+
+<th>Amount</th>
+
+<th>Date</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for item in income_data %}
+
+<tr>
+
+<td>{{ loop.index }}</td>
+
+<td>{{ item.source }}</td>
+
+<td style="color:green;font-weight:600;">
+
+₹{{ item.amount }}
+
+</td>
+
+<td>{{ item.date }}</td>
+
+<td>
+
+<a href="/delete_income/{{ loop.index0 }}">
+
+<button class="menu-btn">
+
+Delete
+
+</button>
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<script>
+
+new Chart(document.getElementById("incomeChart"),{
+
+type:"bar",
+
+data:{
+
+labels:[
+
+{% for item in income_data %}
+
+"{{ item.source }}",
+
+{% endfor %}
+
+],
+
+datasets:[{
+
+label:"Income",
+
+data:[
+
+{% for item in income_data %}
+
+{{ item.amount }},
+
+{% endfor %}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+</script>
+
+{% endblock %}

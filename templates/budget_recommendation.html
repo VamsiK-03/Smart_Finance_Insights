@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>💵 Budget Recommendation</h1>
+
+<p>Smart budget planning based on the 50-30-20 budgeting rule.</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card income-card">
+
+<div class="card-icon">💰</div>
+
+<div>
+
+<h4>Monthly Income</h4>
+
+<h2>₹{{ income }}</h2>
+
+<p>Total Income</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card expense-card">
+
+<div class="card-icon">💳</div>
+
+<div>
+
+<h4>Current Expense</h4>
+
+<h2>₹{{ expense }}</h2>
+
+<p>Current Spending</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card savings-card">
+
+<div class="card-icon">🏦</div>
+
+<div>
+
+<h4>Recommended Savings</h4>
+
+<h2>₹{{ savings_budget }}</h2>
+
+<p>20% Rule</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card investment-card">
+
+<div class="card-icon">📈</div>
+
+<div>
+
+<h4>Investments</h4>
+
+<h2>₹{{ investment_budget }}</h2>
+
+<p>Suggested Investment</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>📊 Recommended Budget</h2>
+
+<canvas id="budgetChart"></canvas>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>💡 AI Budget Suggestions</h2>
+
+<div class="notification-box">
+
+{% if expense > needs_budget %}
+
+<div class="notify warning">
+
+Reduce your essential expenses to stay within the recommended 50% budget.
+
+</div>
+
+{% else %}
+
+<div class="notify success">
+
+Your essential expenses are within the recommended range.
+
+</div>
+
+{% endif %}
+
+<div class="notify info">
+
+Allocate 30% of your income for personal wants and lifestyle.
+
+</div>
+
+<div class="notify success">
+
+Save or invest at least 20% of your monthly income.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📋 50-30-20 Budget Plan</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>Category</th>
+
+<th>Percentage</th>
+
+<th>Recommended Amount</th>
+
+</tr>
+
+<tr>
+
+<td>Needs</td>
+
+<td>50%</td>
+
+<td>₹{{ needs_budget }}</td>
+
+</tr>
+
+<tr>
+
+<td>Wants</td>
+
+<td>30%</td>
+
+<td>₹{{ wants_budget }}</td>
+
+</tr>
+
+<tr>
+
+<td>Savings & Investments</td>
+
+<td>20%</td>
+
+<td>₹{{ savings_budget }}</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<script>
+
+new Chart(document.getElementById("budgetChart"),{
+
+type:"pie",
+
+data:{
+
+labels:["Needs","Wants","Savings"],
+
+datasets:[{
+
+data:[
+
+{{ needs_budget }},
+
+{{ wants_budget }},
+
+{{ savings_budget }}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+
+position:"bottom"
+
+}
+
+}
+
+}
+
+});
+
+</script>
+
+{% endblock %}

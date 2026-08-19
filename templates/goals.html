@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>🎯 Financial Goals</h1>
+
+<p>Create and monitor your savings goals.</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card goal-card">
+
+<div class="card-icon">🎯</div>
+
+<div>
+
+<h4>Total Goals</h4>
+
+<h2>{{ goal_data|length }}</h2>
+
+<p>Active Goals</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card savings-card">
+
+<div class="card-icon">🏆</div>
+
+<div>
+
+<h4>Completed</h4>
+
+<h2>
+
+{{ goal_data|selectattr('progress','ge',100)|list|length }}
+
+</h2>
+
+<p>Goals Achieved</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>➕ Add Financial Goal</h2>
+
+<form action="/add_goal" method="POST">
+
+<div class="form-group">
+
+<label>Goal Name</label>
+
+<input
+
+type="text"
+
+name="goal"
+
+placeholder="Buy a Car"
+
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Target Amount (₹)</label>
+
+<input
+
+type="number"
+
+name="target"
+
+step="0.01"
+
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Saved Amount (₹)</label>
+
+<input
+
+type="number"
+
+name="saved"
+
+step="0.01"
+
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Target Date</label>
+
+<input
+
+type="date"
+
+name="date"
+
+required>
+
+</div>
+
+<br>
+
+<button class="menu-btn">
+
+Save Goal
+
+</button>
+
+</form>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📊 Goal Progress</h2>
+
+<canvas id="goalChart"></canvas>
+
+</div>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📋 Goal Details</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>#</th>
+
+<th>Goal</th>
+
+<th>Target</th>
+
+<th>Saved</th>
+
+<th>Remaining</th>
+
+<th>Progress</th>
+
+<th>Date</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for item in goal_data %}
+
+<tr>
+
+<td>{{ loop.index }}</td>
+
+<td>{{ item.goal }}</td>
+
+<td>₹{{ item.target }}</td>
+
+<td>₹{{ item.saved }}</td>
+
+<td>₹{{ item.remaining }}</td>
+
+<td>
+
+<div class="progress">
+
+<div style="width:{{ item.progress }}%;"></div>
+
+</div>
+
+{{ item.progress }}%
+
+</td>
+
+<td>{{ item.date }}</td>
+
+<td>
+
+<a href="/delete_goal/{{ loop.index0 }}">
+
+<button class="menu-btn">
+
+Delete
+
+</button>
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<script>
+
+new Chart(document.getElementById("goalChart"),{
+
+type:"bar",
+
+data:{
+
+labels:[
+
+{% for item in goal_data %}
+
+"{{ item.goal }}",
+
+{% endfor %}
+
+],
+
+datasets:[
+
+{
+
+label:"Target",
+
+data:[
+
+{% for item in goal_data %}
+
+{{ item.target }},
+
+{% endfor %}
+
+]
+
+},
+
+{
+
+label:"Saved",
+
+data:[
+
+{% for item in goal_data %}
+
+{{ item.saved }},
+
+{% endfor %}
+
+]
+
+}
+
+]
+
+},
+
+options:{
+
+responsive:true
+
+}
+
+});
+
+</script>
+
+{% endblock %}

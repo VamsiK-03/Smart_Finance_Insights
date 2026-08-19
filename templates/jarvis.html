@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <div>
+        <h1>🤖 JARVIS AI Financial Assistant</h1>
+        <p>Your personal financial assistant.</p>
+    </div>
+
+</div>
+
+<div class="dashboard-row">
+
+    <div class="dashboard-panel">
+
+        <h2>💬 Ask JARVIS</h2>
+
+        <div id="chatBox" class="jarvis-chat">
+
+    {% if history %}
+
+        {% for item in history %}
+
+            <div class="user-message">
+
+                <strong>You:</strong>
+
+                {{ item.user }}
+
+            </div>
+
+            <div class="jarvis-message">
+
+                <strong>JARVIS:</strong>
+
+                {{ item.jarvis }}
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="jarvis-message">
+
+            <strong>JARVIS:</strong>
+
+            Hello! I'm JARVIS, your financial assistant.
+            Ask me about your expenses, budget, investments,
+            savings or financial goals.
+
+        </div>
+
+    {% endif %}
+
+</div>
+         <div style="margin-bottom:15px;">
+
+    <button
+        type="button"
+        onclick="clearJarvisChat()"
+        class="menu-btn">
+
+        🗑 Clear Conversation
+
+    </button>
+
+</div>
+        <form id="jarvisForm">
+
+            <div class="jarvis-input">
+
+                <input
+                    type="text"
+                    id="message"
+                    placeholder="Ask JARVIS something..."
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit">
+                    Send
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="dashboard-panel">
+
+        <h2>💡 Try asking</h2>
+
+        <div class="notification-box">
+
+            <div class="notify info">
+                How much did I spend?
+            </div>
+
+            <div class="notify info">
+                What is my savings rate?
+            </div>
+
+            <div class="notify info">
+                How are my investments performing?
+            </div>
+
+            <div class="notify info">
+                Show my financial goals.
+            </div>
+
+            <div class="notify info">
+                Give me a budget recommendation.
+            </div>
+
+            <div class="notify info">
+                How is my financial health?
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const form = document.getElementById("jarvisForm");
+
+const messageInput = document.getElementById("message");
+
+const chatBox = document.getElementById("chatBox");
+
+form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const message = messageInput.value.trim();
+
+    if (!message) {
+        return;
+    }
+
+    chatBox.innerHTML += `
+        <div class="user-message">
+            <strong>You:</strong> ${message}
+        </div>
+    `;
+
+    messageInput.value = "";
+
+    try {
+
+        const response = await fetch("/jarvis_chat", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                message: message
+            })
+
+        });
+
+        const data = await response.json();
+
+        chatBox.innerHTML += `
+            <div class="jarvis-message">
+                <strong>JARVIS:</strong> ${data.reply}
+            </div>
+        `;
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+    } catch (error) {
+
+        chatBox.innerHTML += `
+            <div class="notify warning">
+                Unable to connect to JARVIS.
+            </div>
+        `;
+
+    }
+
+});
+
+</script>
+
+{% endblock %}
+<script>
+
+async function clearJarvisChat(){
+
+    const response = await fetch(
+        "/clear_jarvis",
+        {
+            method:"POST"
+        }
+    );
+
+    if(response.ok){
+
+        document.getElementById(
+            "chatBox"
+        ).innerHTML = `
+
+            <div class="jarvis-message">
+
+                <strong>JARVIS:</strong>
+
+                Conversation cleared.
+                How can I help you?
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+</script>

@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>👤 My Profile</h1>
+
+<p>View your personal and financial information.</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card income-card">
+
+<div class="card-icon">💰</div>
+
+<div>
+
+<h4>Total Income</h4>
+
+<h2>₹{{ income }}</h2>
+
+<p>Income Earned</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card expense-card">
+
+<div class="card-icon">💳</div>
+
+<div>
+
+<h4>Total Expense</h4>
+
+<h2>₹{{ expense }}</h2>
+
+<p>Total Spending</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card savings-card">
+
+<div class="card-icon">🏦</div>
+
+<div>
+
+<h4>Total Savings</h4>
+
+<h2>₹{{ savings }}</h2>
+
+<p>Available Savings</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card investment-card">
+
+<div class="card-icon">📈</div>
+
+<div>
+
+<h4>Investments</h4>
+
+<h2>₹{{ invested }}</h2>
+
+<p>Portfolio Value</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>👤 Personal Information</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>Field</th>
+
+<th>Information</th>
+
+</tr>
+
+<tr>
+
+<td>Full Name</td>
+
+<td>{{ user.username }}</td>
+
+</tr>
+
+<tr>
+
+<td>Email</td>
+
+<td>{{ user.email }}</td>
+
+</tr>
+
+<tr>
+
+<td>Account Type</td>
+
+<td>Standard User</td>
+
+</tr>
+
+<tr>
+
+<td>Application</td>
+
+<td>Smart Finance Insights</td>
+
+</tr>
+
+<tr>
+
+<td>Status</td>
+
+<td style="color:green;font-weight:bold;">Active</td>
+
+</tr>
+
+</table>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📊 Financial Statistics</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>Metric</th>
+
+<th>Value</th>
+
+</tr>
+
+<tr>
+
+<td>Total Income</td>
+
+<td>₹{{ income }}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Expense</td>
+
+<td>₹{{ expense }}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Savings</td>
+
+<td>₹{{ savings }}</td>
+
+</tr>
+
+<tr>
+
+<td>Total Investments</td>
+
+<td>₹{{ invested }}</td>
+
+</tr>
+
+<tr>
+
+<td>Financial Score</td>
+
+<td>{{ score }}/100</td>
+
+</tr>
+
+<tr>
+
+<td>Goals Created</td>
+
+<td>{{ goals }}</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>🏆 Achievements</h2>
+
+<div class="achievement">
+
+{% if score>=80 %}
+
+<h1>🥇</h1>
+
+<h3>Financial Expert</h3>
+
+<p>Excellent financial management.</p>
+
+{% elif score>=60 %}
+
+<h1>🥈</h1>
+
+<h3>Smart Saver</h3>
+
+<p>Good financial habits.</p>
+
+{% else %}
+
+<h1>🥉</h1>
+
+<h3>Getting Started</h3>
+
+<p>Continue improving your finances.</p>
+
+{% endif %}
+
+</div>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>⚡ Quick Actions</h2>
+
+<div class="quick-buttons">
+
+<button class="menu-btn"
+onclick="location.href='/dashboard'">
+
+Dashboard
+
+</button>
+
+<button class="menu-btn"
+onclick="location.href='/income'">
+
+Income
+
+</button>
+
+<button class="menu-btn"
+onclick="location.href='/expense'">
+
+Expense
+
+</button>
+
+<button class="menu-btn"
+onclick="location.href='/investment'">
+
+Investment
+
+</button>
+
+<button class="menu-btn"
+onclick="location.href='/goals'">
+
+Goals
+
+</button>
+
+<button class="menu-btn"
+onclick="location.href='/reports'">
+
+Reports
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

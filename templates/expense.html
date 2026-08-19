@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+<div>
+
+<h1>💳 Expense Management</h1>
+
+<p>Track and analyze all your expenses.</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card expense-card">
+
+<div class="card-icon">💳</div>
+
+<div>
+
+<h4>Total Expense</h4>
+
+<h2>₹{{ total_expense }}</h2>
+
+<p>Current Expenses</p>
+
+</div>
+
+</div>
+
+<div class="dashboard-card savings-card">
+
+<div class="card-icon">📋</div>
+
+<div>
+
+<h4>Expense Records</h4>
+
+<h2>{{ expense_data|length }}</h2>
+
+<p>Total Entries</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboard-row">
+
+<div class="dashboard-panel">
+
+<h2>➕ Add Expense</h2>
+
+<form action="/add_expense" method="POST">
+
+<div class="form-group">
+
+<label>Category</label>
+
+<select name="category" required>
+
+<option value="">Select Category</option>
+
+<option>Food</option>
+
+<option>Travel</option>
+
+<option>Rent</option>
+
+<option>Shopping</option>
+
+<option>Bills</option>
+
+<option>Medical</option>
+
+<option>Education</option>
+
+<option>Entertainment</option>
+
+<option>Others</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Amount (₹)</label>
+
+<input
+
+type="number"
+
+name="amount"
+
+step="0.01"
+
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Date</label>
+
+<input
+
+type="date"
+
+name="date"
+
+required>
+
+</div>
+
+<br>
+
+<button class="menu-btn">
+
+Save Expense
+
+</button>
+
+</form>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📊 Expense Categories</h2>
+
+<canvas id="expenseChart"></canvas>
+
+</div>
+
+</div>
+
+<div class="dashboard-panel">
+
+<h2>📄 Expense History</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>#</th>
+
+<th>Category</th>
+
+<th>Amount</th>
+
+<th>Date</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for item in expense_data %}
+
+<tr>
+
+<td>{{ loop.index }}</td>
+
+<td>{{ item.category }}</td>
+
+<td style="color:red;font-weight:600;">
+
+₹{{ item.amount }}
+
+</td>
+
+<td>{{ item.date }}</td>
+
+<td>
+
+<a href="/delete_expense/{{ loop.index0 }}">
+
+<button class="menu-btn">
+
+Delete
+
+</button>
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<script>
+
+new Chart(document.getElementById("expenseChart"),{
+
+type:"pie",
+
+data:{
+
+labels:[
+
+{% for item in expense_data %}
+
+"{{ item.category }}",
+
+{% endfor %}
+
+],
+
+datasets:[{
+
+data:[
+
+{% for item in expense_data %}
+
+{{ item.amount }},
+
+{% endfor %}
+
+]
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+
+position:"bottom"
+
+}
+
+}
+
+}
+
+});
+
+</script>
+
+{% endblock %}

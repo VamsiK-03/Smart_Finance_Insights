@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Registration Successful</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<meta http-equiv="refresh" content="5;url=/login">
+
+</head>
+
+<body class="auth-body">
+
+<div class="success-container">
+
+<div class="success-card">
+
+<div class="success-icon">
+
+✅
+
+</div>
+
+<h1>Registration Successful!</h1>
+
+<p>
+
+Your Smart Finance Insights account has been created successfully.
+
+</p>
+
+<p>
+
+You will be redirected to the Login page in <span id="count">5</span> seconds.
+
+</p>
+
+<br>
+
+<button onclick="location.href='/login'" class="menu-btn">
+
+Go to Login
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let time=5;
+
+setInterval(function(){
+
+time--;
+
+if(time>=0){
+
+document.getElementById("count").innerHTML=time;
+
+}
+
+},1000);
+
+</script>
+
+</body>
+
+</html>

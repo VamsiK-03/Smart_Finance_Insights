@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="home-banner">
+
+    <div class="banner-left">
+
+        <h1>💰 Smart Finance Insights</h1>
+
+        <p>
+
+            Welcome <strong>{{ user.username }}</strong>!
+
+            Manage your personal finances, monitor investments,
+
+            achieve savings goals and make smarter financial decisions.
+
+        </p>
+
+        <br>
+
+        <button class="menu-btn" onclick="location.href='/dashboard'">
+
+            📊 Open Dashboard
+
+        </button>
+
+    </div>
+
+    <div class="banner-right">
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135706.png" width="220">
+
+    </div>
+
+</div>
+
+<br>
+
+<div class="summary-grid">
+
+    <div class="summary-card">
+
+        <h3>💰 Income</h3>
+
+        <p>Manage all income sources.</p>
+
+        <br>
+
+        <button class="menu-btn"
+
+        onclick="location.href='/income'">
+
+        Open
+
+        </button>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h3>💳 Expenses</h3>
+
+        <p>Track and categorize expenses.</p>
+
+        <br>
+
+        <button class="menu-btn"
+
+        onclick="location.href='/expense'">
+
+        Open
+
+        </button>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h3>📈 Investments</h3>
+
+        <p>Monitor your investment portfolio.</p>
+
+        <br>
+
+        <button class="menu-btn"
+
+        onclick="location.href='/investment'">
+
+        Open
+
+        </button>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h3>🎯 Goals</h3>
+
+        <p>Create and monitor savings goals.</p>
+
+        <br>
+
+        <button class="menu-btn"
+
+        onclick="location.href='/goals'">
+
+        Open
+
+        </button>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h3>📄 Reports</h3>
+
+        <p>View complete financial reports.</p>
+
+        <br>
+
+        <button class="menu-btn"
+
+        onclick="location.href='/reports'">
+
+        Open
+
+        </button>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h3>📊 Charts</h3>
+
+        <p>Visualize your financial data.</p>
+
+        <br>
+
+        <button class="menu-btn"
+
+        onclick="location.href='/charts'">
+
+        Open
+
+        </button>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h3>🤖 AI Insights</h3>
+
+        <p>Get smart financial recommendations.</p>
+
+        <br>
+
+        <button class="menu-btn"
+
+        onclick="location.href='/ai'">
+
+        Open
+
+        </button>
+
+    </div>
+
+    <div class="summary-card">
+
+        <h3>👤 Profile</h3>
+
+        <p>View your financial profile.</p>
+
+        <br>
+
+        <button class="menu-btn"
+
+        onclick="location.href='/profile'">
+
+        Open
+
+        </button>
+
+    </div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>🚀 Features Available</h2>
+
+<div class="feature-grid">
+
+<div class="feature-box">
+
+💰
+
+<h3>Income Tracking</h3>
+
+<p>Record salary, business income and other earnings.</p>
+
+</div>
+
+<div class="feature-box">
+
+💳
+
+<h3>Expense Management</h3>
+
+<p>Track spending by category and date.</p>
+
+</div>
+
+<div class="feature-box">
+
+📈
+
+<h3>Investment Portfolio</h3>
+
+<p>Calculate ROI and monitor asset growth.</p>
+
+</div>
+
+<div class="feature-box">
+
+🎯
+
+<h3>Goal Planning</h3>
+
+<p>Create savings goals with progress tracking.</p>
+
+</div>
+
+<div class="feature-box">
+
+❤️
+
+<h3>Financial Health</h3>
+
+<p>Analyze overall financial performance.</p>
+
+</div>
+
+<div class="feature-box">
+
+🤖
+
+<h3>AI Recommendations</h3>
+
+<p>Receive intelligent finance suggestions.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>📌 Milestones Covered</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>Milestone</th>
+
+<th>Modules</th>
+
+</tr>
+
+<tr>
+
+<td>Milestone 1</td>
+
+<td>Authentication, Income, Expense, Reports, Charts</td>
+
+</tr>
+
+<tr>
+
+<td>Milestone 2</td>
+
+<td>Investment, Asset Allocation, Goals, Analytics</td>
+
+</tr>
+
+<tr>
+
+<td>Milestone 3</td>
+
+<td>Financial Health, Budget Recommendation, AI, Alerts</td>
+
+</tr>
+
+</table>
+
+</div>
+
+{% endblock %}

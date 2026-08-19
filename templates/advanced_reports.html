@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <div>
+        <h1>📑 Advanced Financial Reports</h1>
+        <p>Detailed analysis of your income, expenses, investments and goals.</p>
+    </div>
+
+</div>
+
+<div class="dashboard-grid">
+
+    <div class="dashboard-card income-card">
+        <div class="card-icon">💰</div>
+        <div>
+            <h4>Total Income</h4>
+            <h2>₹{{ "%.2f"|format(income) }}</h2>
+        </div>
+    </div>
+
+    <div class="dashboard-card expense-card">
+        <div class="card-icon">💳</div>
+        <div>
+            <h4>Total Expense</h4>
+            <h2>₹{{ "%.2f"|format(expense) }}</h2>
+        </div>
+    </div>
+
+    <div class="dashboard-card savings-card">
+        <div class="card-icon">🏦</div>
+        <div>
+            <h4>Total Savings</h4>
+            <h2>₹{{ "%.2f"|format(savings) }}</h2>
+        </div>
+    </div>
+
+    <div class="dashboard-card investment-card">
+        <div class="card-icon">📈</div>
+        <div>
+            <h4>Investment Value</h4>
+            <h2>₹{{ "%.2f"|format(investment_value) }}</h2>
+        </div>
+    </div>
+
+</div>
+
+<div class="dashboard-row">
+
+    <div class="dashboard-panel">
+
+        <h2>📊 Monthly Expense Report</h2>
+
+        <table class="dashboard-table">
+
+            <tr>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Percentage</th>
+            </tr>
+
+            {% for item in expense_report %}
+
+            <tr>
+                <td>{{ item.category }}</td>
+                <td>₹{{ "%.2f"|format(item.amount) }}</td>
+                <td>{{ item.percentage }}%</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <div class="dashboard-panel">
+
+        <h2>💵 Budget Utilization</h2>
+
+        <table class="dashboard-table">
+
+            <tr>
+                <th>Category</th>
+                <th>Budget</th>
+                <th>Actual</th>
+                <th>Usage</th>
+            </tr>
+
+            {% for item in budget_report %}
+
+            <tr>
+
+                <td>{{ item.category }}</td>
+
+                <td>₹{{ "%.2f"|format(item.budget) }}</td>
+
+                <td>₹{{ "%.2f"|format(item.actual) }}</td>
+
+                <td>{{ item.utilization }}%</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="dashboard-row">
+
+    <div class="dashboard-panel">
+
+        <h2>📈 Investment Performance</h2>
+
+        <table class="dashboard-table">
+
+            <tr>
+                <th>Investment</th>
+                <th>Invested</th>
+                <th>Current Value</th>
+                <th>ROI</th>
+            </tr>
+
+            {% for item in investment_report %}
+
+            <tr>
+
+                <td>{{ item.name }}</td>
+
+                <td>₹{{ "%.2f"|format(item.invested) }}</td>
+
+                <td>₹{{ "%.2f"|format(item.current) }}</td>
+
+                <td>{{ item.roi }}%</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <div class="dashboard-panel">
+
+        <h2>🎯 Financial Goal Progress</h2>
+
+        <table class="dashboard-table">
+
+            <tr>
+                <th>Goal</th>
+                <th>Target</th>
+                <th>Saved</th>
+                <th>Progress</th>
+            </tr>
+
+            {% for item in goal_report %}
+
+            <tr>
+
+                <td>{{ item.name }}</td>
+
+                <td>₹{{ "%.2f"|format(item.target) }}</td>
+
+                <td>₹{{ "%.2f"|format(item.saved) }}</td>
+
+                <td>{{ item.progress }}%</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="dashboard-panel">
+
+    <h2>📥 Export Reports</h2>
+
+    <div class="quick-buttons">
+
+        <a href="/export_report_pdf"
+           class="menu-btn">
+
+            📄 Download PDF
+
+        </a>
+
+        <a href="/export_report_excel"
+           class="menu-btn">
+
+            📊 Download Excel
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

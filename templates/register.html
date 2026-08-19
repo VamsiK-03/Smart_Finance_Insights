@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Register | Smart Finance Insights</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body class="auth-body">
+
+<div class="auth-container">
+
+<div class="auth-left">
+
+<h1>💰 Smart Finance Insights</h1>
+
+<p>
+
+Start managing your personal finances professionally with powerful analytics, AI insights and smart financial planning.
+
+</p>
+
+<ul>
+
+<li>✔ Secure User Authentication</li>
+
+<li>✔ Income & Expense Tracking</li>
+
+<li>✔ Investment Portfolio</li>
+
+<li>✔ Financial Goals</li>
+
+<li>✔ Smart Budget Planning</li>
+
+<li>✔ AI Powered Insights</li>
+
+</ul>
+
+</div>
+
+<div class="auth-right">
+
+<h2>Create Account</h2>
+
+<p>Create your Smart Finance account</p>
+
+{% if error %}
+
+<div class="error-box">
+
+{{ error }}
+
+</div>
+
+{% endif %}
+
+<form method="POST">
+
+<input
+type="text"
+name="username"
+placeholder="Full Name"
+required
+>
+
+<input
+type="email"
+name="email"
+placeholder="Email Address"
+required
+>
+
+<input
+type="password"
+name="password"
+placeholder="Password"
+required
+>
+
+<input
+type="password"
+name="confirm_password"
+placeholder="Confirm Password"
+required
+>
+
+<button type="submit">
+
+Create Account
+
+</button>
+
+</form>
+
+<div class="bottom-link">
+
+Already have an account?
+
+<a href="/login">
+
+Login
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
